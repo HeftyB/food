@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "ingredients")
@@ -23,8 +25,15 @@ public class Ingredient extends Auditable
     @ManyToOne
     @NotNull
     @JoinColumn(name = "categoryid")
-    @JsonIgnoreProperties(value = "ingredients", allowSetters = true)
+    @JsonIgnoreProperties(value = "ingredients",
+        allowSetters = true)
     private Category category;
+
+    @OneToMany(mappedBy = "ingredient",
+        cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = "ingredient",
+        allowSetters = true)
+    private List<RecipeIngredient> recipes = new ArrayList<>();
 
     public Ingredient()
     {

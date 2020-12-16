@@ -86,10 +86,6 @@ public class SeedData
         userService.save(u1);
 
 
-
-
-
-
         if (false)
         {
             // using JavaFaker create a bunch of regular users
