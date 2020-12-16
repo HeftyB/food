@@ -2,7 +2,6 @@ package com.lambdaschool.foundation.controllers;
 
 import com.lambdaschool.foundation.models.User;
 import com.lambdaschool.foundation.services.UserService;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -46,7 +45,8 @@ public class UserController
         List<User> myUsers = userService.findAll();
 
         System.out.println(SecurityContextHolder.getContext()
-            .getAuthentication().getName());
+            .getAuthentication()
+            .getName());
 
         return new ResponseEntity<>(myUsers,
             HttpStatus.OK);

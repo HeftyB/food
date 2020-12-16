@@ -8,7 +8,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "categories")
-public class Category  extends Auditable
+public class Category extends Auditable
 {
 
     @Id
@@ -19,8 +19,11 @@ public class Category  extends Auditable
     @Column(unique = true)
     private String name;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnoreProperties(value = "category", allowSetters = true)
+    @OneToMany(mappedBy = "category",
+        cascade = CascadeType.ALL,
+        orphanRemoval = true)
+    @JsonIgnoreProperties(value = "category",
+        allowSetters = true)
     private List<Ingredient> ingredients;
 
     public Category()
