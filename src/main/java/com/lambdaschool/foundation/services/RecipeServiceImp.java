@@ -24,7 +24,8 @@ public class RecipeServiceImp
     {
         List<Recipe> list = new ArrayList<>();
 
-        recrepo.findAll().iterator()
+        recrepo.findAll()
+            .iterator()
             .forEachRemaining(list::add);
 
         return list;
@@ -52,12 +53,15 @@ public class RecipeServiceImp
         r.setDescription(recipe.getDescription());
         r.setDirections(recipe.getDirections());
 
-        r.getIngredients().clear();
+        r.getIngredients()
+            .clear();
 
         for (RecipeIngredient rec : recipe.getIngredients())
         {
-            r.getIngredients().add(new RecipeIngredient(r, rec.getIngredient(),
-                rec.getQty()));
+            r.getIngredients()
+                .add(new RecipeIngredient(r,
+                    rec.getIngredient(),
+                    rec.getQty()));
         }
 
         return recrepo.save(r);
@@ -69,6 +73,13 @@ public class RecipeServiceImp
         long id)
     {
         Recipe r = findRecipeById(id);
+
+        if (recipe.getRecipieid() != 0)
+        {
+            recrepo.findById(recipe.getRecipieid())
+                .orElseThrow(() -> new ResourceNotFoundException("Recipe id " + id + " not found!"));
+            r.setRecipieid(recipe.getRecipieid());
+        }
 
         if (recipe.getRecipename() != null)
         {
@@ -86,14 +97,18 @@ public class RecipeServiceImp
         }
 
 
-        if (recipe.getIngredients().size() > 0)
+        if (recipe.getIngredients()
+            .size() > 0)
         {
-            r.getIngredients().clear();
+            r.getIngredients()
+                .clear();
 
             for (RecipeIngredient rec : recipe.getIngredients())
             {
-                r.getIngredients().add(new RecipeIngredient(r, rec.getIngredient(),
-                    rec.getQty()));
+                r.getIngredients()
+                    .add(new RecipeIngredient(r,
+                        rec.getIngredient(),
+                        rec.getQty()));
             }
         }
 

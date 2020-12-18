@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface IngredientService
 {
-    List<Ingredient> findall();
+    List<Ingredient> findAll();
 
     List<Ingredient> findByNameContaining(String name);
 
@@ -14,7 +14,9 @@ public interface IngredientService
 
     Ingredient save(Ingredient ingredient);
 
-    Ingredient update(Ingredient ingredient, long id);
+    Ingredient update(
+        Ingredient ingredient,
+        long id);
 
     void delete(long id);
 }

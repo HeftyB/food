@@ -24,10 +24,12 @@ public class IngredientServiceImp implements IngredientService
     private CategoryRepository catrepo;
 
     @Override
-    public List<Ingredient> findall()
+    public List<Ingredient> findAll()
     {
         List<Ingredient> ingredients = new ArrayList<>();
-        ingrepo.findAll().iterator().forEachRemaining(ingredients::add);
+        ingrepo.findAll()
+            .iterator()
+            .forEachRemaining(ingredients::add);
 
         return ingredients;
     }
@@ -54,17 +56,22 @@ public class IngredientServiceImp implements IngredientService
         {
             ingrepo.findById(ingredient.getIngredientid())
                 .orElseThrow(() -> new ResourceNotFoundException("Ingredient id " + ingredient.getIngredientid() + " not found!"));
+            newIngredient.setIngredientid(ingredient.getIngredientid());
         }
 
         newIngredient.setName(ingredient.getName());
         newIngredient.setCategory(ingredient.getCategory());
         newIngredient.setDescription(ingredient.getDescription());
 
-        newIngredient.getRecipes().clear();
+        newIngredient.getRecipes()
+            .clear();
 
-        for(RecipeIngredient r : ingredient.getRecipes())
+        for (RecipeIngredient r : ingredient.getRecipes())
         {
-            newIngredient.getRecipes().add(new RecipeIngredient(r.getRecipe(), newIngredient, r.getQty()));
+            newIngredient.getRecipes()
+                .add(new RecipeIngredient(r.getRecipe(),
+                    newIngredient,
+                    r.getQty()));
         }
 
         return ingrepo.save(newIngredient);
@@ -91,13 +98,18 @@ public class IngredientServiceImp implements IngredientService
             currentIngredient.setDescription(ingredient.getDescription());
         }
 
-        if (ingredient.getRecipes().size() > 0)
+        if (ingredient.getRecipes()
+            .size() > 0)
         {
-            currentIngredient.getRecipes().clear();
+            currentIngredient.getRecipes()
+                .clear();
 
-            for(RecipeIngredient r : ingredient.getRecipes())
+            for (RecipeIngredient r : ingredient.getRecipes())
             {
-                currentIngredient.getRecipes().add(new RecipeIngredient(r.getRecipe(), currentIngredient, r.getQty()));
+                currentIngredient.getRecipes()
+                    .add(new RecipeIngredient(r.getRecipe(),
+                        currentIngredient,
+                        r.getQty()));
             }
 
         }
