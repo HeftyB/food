@@ -23,7 +23,7 @@ public class Recipe extends Auditable
     private String description;
 
     @NotNull
-    private TextArea directions;
+    private String directions;
 
     @OneToMany(mappedBy = "recipe",
         cascade = CascadeType.ALL)
@@ -38,7 +38,7 @@ public class Recipe extends Auditable
     public Recipe(
         @NotNull String recipename,
         String description,
-        @NotNull TextArea directions,
+        @NotNull String directions,
         Set<RecipeIngredient> ingredients)
     {
         this.recipename = recipename;
@@ -77,12 +77,12 @@ public class Recipe extends Auditable
         this.description = description;
     }
 
-    public TextArea getDirections()
+    public String getDirections()
     {
         return directions;
     }
 
-    public void setDirections(TextArea directions)
+    public void setDirections(String directions)
     {
         this.directions = directions;
     }
