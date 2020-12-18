@@ -36,6 +36,7 @@ public class UserServiceImpl
     @Autowired
     private HelperFunctions helperFunctions;
 
+    @Override
     public User findUserById(long id) throws
                                       ResourceNotFoundException
     {
@@ -47,7 +48,7 @@ public class UserServiceImpl
     public List<User> findByNameContaining(String username)
     {
 
-        return userrepos.findByUsernameContainingIgnoreCase(username.toLowerCase());
+        return userrepos.findByUsernameContainingIgnoreCase(username);
     }
 
     @Override
@@ -88,7 +89,6 @@ public class UserServiceImpl
     @Override
     public User save(User user)
     {
-
         User newUser = new User();
 
         if (user.getUserid() != 0)
