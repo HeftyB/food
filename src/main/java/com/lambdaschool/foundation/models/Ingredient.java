@@ -97,6 +97,16 @@ public class Ingredient extends Auditable
         this.category = category;
     }
 
+    public List<RecipeIngredient> getRecipes()
+    {
+        return recipes;
+    }
+
+    public void setRecipes(List<RecipeIngredient> recipes)
+    {
+        this.recipes = recipes;
+    }
+
     @Override
     public String toString()
     {

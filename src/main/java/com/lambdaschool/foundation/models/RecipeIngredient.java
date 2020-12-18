@@ -42,12 +42,15 @@ public class RecipeIngredient extends Auditable implements Serializable
     }
 
     public RecipeIngredient(
+        @NotNull Recipe recipe,
         @NotNull Ingredient ingredient,
         String qty)
     {
+        this.recipe = recipe;
         this.ingredient = ingredient;
         this.qty = qty;
     }
+
 
     public Recipe getRecipe()
     {
