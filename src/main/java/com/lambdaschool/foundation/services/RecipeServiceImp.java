@@ -1,8 +1,9 @@
 package com.lambdaschool.foundation.services;
 
 import com.lambdaschool.foundation.exceptions.ResourceNotFoundException;
-import com.lambdaschool.foundation.models.Recipe;
-import com.lambdaschool.foundation.models.RecipeIngredient;
+import com.lambdaschool.foundation.models.*;
+import com.lambdaschool.foundation.repository.DirectionRepository;
+import com.lambdaschool.foundation.repository.IngredientRepository;
 import com.lambdaschool.foundation.repository.RecipeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,13 @@ public class RecipeServiceImp
 {
     @Autowired
     private RecipeRepository recrepo;
+
+    @Autowired
+    private DirectionRepository dirrepo;
+
+    @Autowired
+    private IngredientRepository ingrepo;
+
 
     @Override
     public List<Recipe> findAll()
@@ -49,19 +57,59 @@ public class RecipeServiceImp
     {
         Recipe r = new Recipe();
 
+        if (recipe.getRecipieid() != 0)
+        {
+            recrepo.findById(recipe.getRecipieid())
+                .orElseThrow(() -> new ResourceNotFoundException("Recipe id " + recipe.getRecipieid() + " not found!"));
+            r.setRecipieid(recipe.getRecipieid());
+        }
+
         r.setRecipename(recipe.getRecipename());
         r.setDescription(recipe.getDescription());
-        r.setDirections(recipe.getDirections());
+
+        r.getDirections().clear();
+
+        for(RecipeDirection d : recipe.getDirections())
+        {
+            Direction di = new Direction();
+
+//            if (d.getDirection().getDirectionid() != 0)
+//            {
+//                dirrepo.findById(d.getDirection().getDirectionid())
+//                    .orElseThrow(() -> new ResourceNotFoundException("Direction id " + d.getDirection().getDirectionid() + " Not Found!"));
+//
+//                di.setDirectionid(d.getDirection().getDirectionid());
+//            }
+
+            di.setDirection(d.getDirection().getDirection());
+
+            di = dirrepo.save(di);
+
+            r.getDirections().add(new RecipeDirection(r, di, d.getStepnum()));
+        }
 
         r.getIngredients()
             .clear();
 
         for (RecipeIngredient rec : recipe.getIngredients())
         {
+            Ingredient i = new Ingredient();
+
+            if (rec.getIngredient().getIngredientid() != 0)
+            {
+                ingrepo.findById(rec.getIngredient().getIngredientid())
+                    .orElseThrow(() -> new ResourceNotFoundException("Ingredient id " + rec.getIngredient().getIngredientid() + " not found!"));
+
+                i.setIngredientid(rec.getIngredient().getIngredientid());
+            }
+            i.setName(rec.getIngredient().getName());
+            i.setDescription(rec.getIngredient().getDescription());
+            i.setCategory(rec.getIngredient().getCategory());
+
+
             r.getIngredients()
                 .add(new RecipeIngredient(r,
-                    rec.getIngredient(),
-                    rec.getQty()));
+                    i, rec.getQty()));
         }
 
         return recrepo.save(r);
@@ -91,9 +139,18 @@ public class RecipeServiceImp
             r.setDescription(recipe.getDescription());
         }
 
-        if (recipe.getDirections() != null)
+        if (recipe.getDirections().size() > 0)
         {
-            r.setDirections(recipe.getDirections());
+            r.getIngredients()
+                .clear();
+
+            for (RecipeIngredient rec : recipe.getIngredients())
+            {
+                r.getIngredients()
+                    .add(new RecipeIngredient(r,
+                        rec.getIngredient(),
+                        rec.getQty()));
+            }
         }
 
 
