@@ -10,7 +10,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.awt.*;
 import java.util.Locale;
 
 /**
@@ -44,6 +43,9 @@ public class SeedData
 
     @Autowired
     RecipeService recipeService;
+
+    @Autowired
+    DirectionService directionService;
 
     /**
      * Generates test, seed data for our application
@@ -158,27 +160,94 @@ public class SeedData
 
         rec1.setRecipename("Beef Stew");
         rec1.setDescription("A delicious old time stew");
-        rec1.setDirections("Combine the flour and pepper in a bowl, add the beef and toss to coat well. Heat 3 teaspoons of the oil in a large pot." +
-            " Add the beef a few pieces at a time; do not overcrowd. Cook, turning the pieces until beef is browned on all sides, about 5 minutes per batch;" +
-            " add more oil as needed between batches.\n" +
-            "Remove the beef from the pot and add the vinegar and wine. Cook over medium-high heat, scraping the pan with a wooden spoon to loosen any browned bits." +
-            " Add the beef, beef broth and bay leaves. Bring to a boil, then reduce to a slow simmer.\n" +
-            "Cover and cook, skimming broth from time to time, until the beef is tender, about 1 1/2 hours. Add the onions and carrots and simmer, covered, for 10 minutes." +
-            " Add the potatoes and simmer until vegetables are tender, about 30 minutes more. Add broth or water if the stew is dry." +
-            " Season with salt and pepper to taste. Ladle among 4 bowls and serve.");
 
-        rec1.getIngredients().add(new RecipeIngredient(rec1, i1, "1/4 cup"));
-        rec1.getIngredients().add(new RecipeIngredient(rec1, i2, "1/4 tsp"));
-        rec1.getIngredients().add(new RecipeIngredient(rec1, i3, "1LB"));
-        rec1.getIngredients().add(new RecipeIngredient(rec1, i4, "5 tsp"));
-        rec1.getIngredients().add(new RecipeIngredient(rec1, i5, "2 tbsp"));
-        rec1.getIngredients().add(new RecipeIngredient(rec1, i6, "1 cup"));
-        rec1.getIngredients().add(new RecipeIngredient(rec1, i7, "3 1/2 cups"));
-        rec1.getIngredients().add(new RecipeIngredient(rec1, i8, "2"));
-        rec1.getIngredients().add(new RecipeIngredient(rec1, i9, "1 medium"));
-        rec1.getIngredients().add(new RecipeIngredient(rec1, i10, "5 medium"));
-        rec1.getIngredients().add(new RecipeIngredient(rec1, i11, "3 large"));
-        rec1.getIngredients().add(new RecipeIngredient(rec1, i12, "2 tsp"));
+        Direction dir1 = new Direction("Combine the flour and pepper in a bowl, add the beef and toss to coat well.");
+        Direction dir2 = new Direction("Heat 3 teaspoons of the oil in a large pot. Add the beef a few pieces at a time; do not overcrowd. Cook, turning the pieces until beef is browned on all sides, about 5 minutes per batch. Add more oil as needed between batches.");
+        Direction dir3 = new Direction("Remove the beef from the pot and add the vinegar and wine. Cook over medium-high heat, scraping the pan with a wooden spoon to loosen any browned bits.");
+        Direction dir4 = new Direction("Add the beef, beef broth and bay leaves. Bring to a boil, then reduce to a slow simmer.");
+        Direction dir5 = new Direction("Cover and cook, skimming broth from time to time, until the beef is tender, about 1 1/2 hours. Add the onions and carrots and simmer, covered, for 10 minutes.");
+        Direction dir6 = new Direction("Add the potatoes and simmer until vegetables are tender, about 30 minutes more. Add broth or water if the stew is dry. Season with salt and pepper to taste.");
+
+        dir1 = directionService.save(dir1);
+        dir2 = directionService.save(dir2);
+        dir3 = directionService.save(dir3);
+        dir4 = directionService.save(dir4);
+        dir5 = directionService.save(dir5);
+        dir6 = directionService.save(dir6);
+
+        rec1.getDirections()
+            .add(new RecipeDirection(rec1,
+                dir1,
+                1));
+        rec1.getDirections()
+            .add(new RecipeDirection(rec1,
+                dir2,
+                2));
+        rec1.getDirections()
+            .add(new RecipeDirection(rec1,
+                dir3,
+                3));
+        rec1.getDirections()
+            .add(new RecipeDirection(rec1,
+                dir4,
+                4));
+        rec1.getDirections()
+            .add(new RecipeDirection(rec1,
+                dir5,
+                5));
+        rec1.getDirections()
+            .add(new RecipeDirection(rec1,
+                dir6,
+                6));
+
+        rec1.getIngredients()
+            .add(new RecipeIngredient(rec1,
+                i1,
+                "1/4 cup"));
+        rec1.getIngredients()
+            .add(new RecipeIngredient(rec1,
+                i2,
+                "1/4 tsp"));
+        rec1.getIngredients()
+            .add(new RecipeIngredient(rec1,
+                i3,
+                "1LB"));
+        rec1.getIngredients()
+            .add(new RecipeIngredient(rec1,
+                i4,
+                "5 tsp"));
+        rec1.getIngredients()
+            .add(new RecipeIngredient(rec1,
+                i5,
+                "2 tbsp"));
+        rec1.getIngredients()
+            .add(new RecipeIngredient(rec1,
+                i6,
+                "1 cup"));
+        rec1.getIngredients()
+            .add(new RecipeIngredient(rec1,
+                i7,
+                "3 1/2 cups"));
+        rec1.getIngredients()
+            .add(new RecipeIngredient(rec1,
+                i8,
+                "2"));
+        rec1.getIngredients()
+            .add(new RecipeIngredient(rec1,
+                i9,
+                "1 medium"));
+        rec1.getIngredients()
+            .add(new RecipeIngredient(rec1,
+                i10,
+                "5 medium"));
+        rec1.getIngredients()
+            .add(new RecipeIngredient(rec1,
+                i11,
+                "3 large"));
+        rec1.getIngredients()
+            .add(new RecipeIngredient(rec1,
+                i12,
+                "2 tsp"));
 
         rec1 = recipeService.save(rec1);
 

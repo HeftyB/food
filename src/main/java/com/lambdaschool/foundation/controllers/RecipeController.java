@@ -12,6 +12,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 @RestController
@@ -57,7 +58,7 @@ public class RecipeController
     public ResponseEntity<?> addRecipe(
         @Valid
         @RequestBody
-            Recipe recipe)
+            Recipe recipe) throws URISyntaxException
     {
         recipe.setRecipieid(0);
         recipe = recipeService.save(recipe);

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,8 +23,9 @@ public class Recipe extends Auditable
 
     private String description;
 
-    @NotNull
-    private String directions;
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = "recipe")
+    private Set<RecipeDirection> directions = new HashSet<>();
 
     @OneToMany(mappedBy = "recipe",
         cascade = CascadeType.ALL)
@@ -37,8 +39,16 @@ public class Recipe extends Auditable
 
     public Recipe(
         @NotNull String recipename,
+        String description)
+    {
+        this.recipename = recipename;
+        this.description = description;
+    }
+
+    public Recipe(
+        @NotNull String recipename,
         String description,
-        @NotNull String directions,
+        Set<RecipeDirection> directions,
         Set<RecipeIngredient> ingredients)
     {
         this.recipename = recipename;
@@ -77,12 +87,12 @@ public class Recipe extends Auditable
         this.description = description;
     }
 
-    public String getDirections()
+    public Set<RecipeDirection> getDirections()
     {
         return directions;
     }
 
-    public void setDirections(String directions)
+    public void setDirections(Set<RecipeDirection> directions)
     {
         this.directions = directions;
     }
